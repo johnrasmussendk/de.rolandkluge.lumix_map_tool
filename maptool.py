@@ -75,32 +75,37 @@ def parse_and_verify_args():
       regions = a
       
   if regions is None or not re.match("^(\d;)*\d$", regions):
-    print "Region list needs to be a semicolon-separated list of integers but was '" + str(regions) + "'\n"
-    print usage()
+    print "Region list needs to be a semicolon-separated list of integers but was '" + str(regions) + "'"
     sys.exit(1)
-  if path_to_sdcard is None:
-    print usage()
+  if path_to_sdcard is None or not os.path.exists(path_to_sdcard):
+    print "Option --sdcard is mandatory and needs to be an existing path"
     sys.exit(1)
-  if path_to_mapdata is None:
-    print usage()
+  if path_to_mapdata is None or not os.path.exists(path_to_sdcard):
+    print "Option --mapdata is mandatory and needs to be an existing path"
     sys.exit(1)
       
   return [regions, path_to_mapdata, path_to_sdcard]
 
 def usage():
-  return "Usage: " + __file__ + """: --regions <regions> --mapdata <path-to-mapdata> --sdcard <path-to-sdcard>
+  return "Usage: " + __file__ + """: --regions="<regions>" --mapdata="<path-to-mapdata>" --sdcard="<path-to-sdcard>"
+
+-h
+--help
+  Print help
+  
 -r
 --regions 
-  Comma-separated list of integers.
-  01 - Japan
-  02 - South Asia, Southeast Asia
-  03 - Oceania
-  04 - North America, Central America
-  05 - South America
-  06 - Northern Europe
-  07 - Eastern Europe
-  08 - Western Europe
-  09 - West Asia, Africa
+  The semicolon-separated indices of the regions to copy. E.g. 1;6;10. At least 
+  one region needs to be given.
+   1 - Japan
+   2 - South Asia, Southeast Asia
+   3 - Oceania
+   4 - North America, Central America
+   5 - South America
+   6 - Northern Europe
+   7 - Eastern Europe
+   8 - Western Europe
+   9 - West Asia, Africa
   10 - Russia, North Asia
 
 -m
@@ -110,7 +115,12 @@ def usage():
 
 -s
 --sdcard  
-  Path to sdcard. The tool will create subdirectories PRIVATE/MAP_DATA.
+  Path to sdcard. The tool will create subdirectories PRIVATE/MAP_DATA below this 
+  path and copy the appropriate files.
+  
+Example:
+  
+python mapdata.py --regions="6;7;8" --mapdata="/media/dvd/MAP_DATA" --sdcard="/media/sdcard"
   """
 
 main()
