@@ -1,3 +1,14 @@
+#
+# This tool is a very simple re-engineered version of the Lumix Map Tool.
+#
+# It may be used for copying detailed geographic data to the camera's SD card.
+# To get an idea, of how the tool is used, execute
+#
+#  python maptool.py --help
+#
+# Author: Roland Kluge
+#
+
 import re
 import os
 import sys
