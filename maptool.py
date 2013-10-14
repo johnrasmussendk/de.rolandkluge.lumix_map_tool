@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 #
 # This tool is a very simple re-engineered version of the Lumix Map Tool.
 #
@@ -85,10 +87,11 @@ def parse_and_verify_args():
     elif o in ("-r", "--regions"):
       regions = a
       
-  if regions is None or not re.match("^(\d;)*\d$", regions):
+  if regions is None or not re.match("^(\d+;)*\d+$", regions):
     print "Region list needs to be a semicolon-separated list of integers but was '" + str(regions) + "'"
     sys.exit(1)
   if path_to_sdcard is None or not os.path.exists(path_to_sdcard):
+    print path_to_sdcard
     print "Option --sdcard is mandatory and needs to be an existing path"
     sys.exit(1)
   if path_to_mapdata is None or not os.path.exists(path_to_sdcard):
@@ -98,7 +101,8 @@ def parse_and_verify_args():
   return [regions, path_to_mapdata, path_to_sdcard]
 
 def usage():
-  return "Usage: " + __file__ + """: --regions="<regions>" --mapdata="<path-to-mapdata>" --sdcard="<path-to-sdcard>"
+  return "Usage: " + __file__ + """: --regions="<regions>" --mapdata="<path-to-mapdata>" --sdcard="<path-to-sdcard>" 
+(The quotes around parameter values are obligatory!)
 
 -h
 --help
@@ -131,7 +135,8 @@ def usage():
   
 Example:
   
-python mapdata.py --regions="6;7;8" --mapdata="/media/dvd/MAP_DATA" --sdcard="/media/sdcard"
+python mapdata.py --regions="6;7;8;10" --mapdata="/media/dvd/MAP_DATA" --sdcard="/media/sdcard"
+python mapdata.py -r "6;7;8" -m "/media/dvd/MAP_DATA" -s "/media/sdcard"
   """
 
 main()
